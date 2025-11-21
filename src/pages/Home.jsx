@@ -37,7 +37,7 @@ const [loading, setLoading] = useState(true);
             const searchResults = await searchMovies(searchQuery)
             setMovies(searchResults)
             setError(null)
-        } catch {
+        } catch (err) {
             console.log(err)
             setError("Failed to search movies...")
         } finally {

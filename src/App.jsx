@@ -7,9 +7,6 @@ import NavBar from './components/NavBar';
 
 
 function App() {
-  const movieNumber = 1;
-
-
   return (
     <MovieProvider>
       <NavBar />
