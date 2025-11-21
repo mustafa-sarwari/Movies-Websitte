@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { searchMovies, getPouplarMovies } from "../services/api";
+import { searchMovies, getPopularMovies } from "../services/api";
 import MovieCard from "../components/MovieCard";
 import "../CSS/Home.css";
 
@@ -13,7 +13,7 @@ const [loading, setLoading] = useState(true);
     useEffect(() => {
         const loadPopularMovies = async () => {
             try {
-                const popularMovies = await getPouplarMovies();
+                const popularMovies = await getPopularMovies();
                 setMovies(popularMovies);
             } catch (err) {
                 console.log(err)
@@ -37,7 +37,7 @@ const [loading, setLoading] = useState(true);
             const searchResults = await searchMovies(searchQuery)
             setMovies(searchResults)
             setError(null)
-        } catch {
+        } catch (err) {
             console.log(err)
             setError("Failed to search movies...")
         } finally {
