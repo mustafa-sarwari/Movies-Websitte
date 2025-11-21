@@ -1,19 +1,57 @@
-# React + Vite
+# Movies Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based movie browsing application that allows users to search for movies and manage their favorites using The Movie Database (TMDb) API.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Browse popular movies
+- Search for movies
+- Add/remove movies from favorites
+- Favorites persisted in local storage
+- Responsive design
 
-## React Compiler
+## Setup
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the root directory based on `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+4. Get your TMDb API key from [https://www.themoviedb.org/settings/api](https://www.themoviedb.org/settings/api)
+5. Add your API key to the `.env` file:
+   ```
+   VITE_TMDB_API_KEY=your_api_key_here
+   ```
 
-Note: This will impact Vite dev & build performances.
+## Development
 
-## Expanding the ESLint configuration
+Run the development server:
+```bash
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# Movies-Websitte
+## Build
+
+Build for production:
+```bash
+npm run build
+```
+
+## Lint
+
+Run ESLint:
+```bash
+npm run lint
+```
+
+## Technologies
+
+- React 19
+- Vite with Rolldown
+- React Router DOM
+- TMDb API
+- React Compiler (enabled)
