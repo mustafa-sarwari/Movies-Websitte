@@ -7,16 +7,13 @@ import NavBar from './components/NavBar';
 
 
 function App() {
-  const movieNumber = 1;
-
-
   return (
     <MovieProvider>
       <NavBar />
     <main className="main-content">
       <Routes>
         <Route path='/' element= {<Home />} />
-            <Route path='/favorites' element={<Favorites />} />
+        <Route path='/favorites' element={<Favorites />} />
       </Routes>
     </main>
     </MovieProvider>
@@ -24,4 +21,4 @@ function App() {
 }
 
 
-export default App
+export default App;

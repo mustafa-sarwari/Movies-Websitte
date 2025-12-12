@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { searchMovies, getPouplarMovies } from "../services/api";
+import { searchMovies, getPopularMovies  } from "../services/api";
 import MovieCard from "../components/MovieCard";
 import "../CSS/Home.css";
 
@@ -13,7 +13,7 @@ const [loading, setLoading] = useState(true);
     useEffect(() => {
         const loadPopularMovies = async () => {
             try {
-                const popularMovies = await getPouplarMovies();
+                const popularMovies = await getPopularMovies ();
                 setMovies(popularMovies);
             } catch (err) {
                 console.log(err)
@@ -37,7 +37,7 @@ const [loading, setLoading] = useState(true);
             const searchResults = await searchMovies(searchQuery)
             setMovies(searchResults)
             setError(null)
-        } catch {
+        } catch (err){
             console.log(err)
             setError("Failed to search movies...")
         } finally {
@@ -56,7 +56,7 @@ const [loading, setLoading] = useState(true);
             onChange={(e) => setSearchQuery(e.target.value)}
             />
 
-            <button type="submit" className="search-btn" >Search</button>
+            <button type="submit" className="search-button" >Search</button>
         </form>
 
         {error && <div className="error-message">{error}</div>}
@@ -64,7 +64,7 @@ const [loading, setLoading] = useState(true);
         {loading ? (<div className="loading">Loading...</div>) :(
         
         <div className="movies-grid">
-            {movies.map( movie => (<MovieCard movie={movie} key={movie.id}/>
+            {movies && movies.map( movie => (<MovieCard movie={movie} key={movie.id}/>
         ))}
         </div>
         )}
