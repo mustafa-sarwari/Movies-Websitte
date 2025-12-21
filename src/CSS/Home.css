@@ -42,6 +42,108 @@
   background-color: #f40612;
 }
 
+.clear-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #666;
+  color: white;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.clear-button:hover {
+  background-color: #888;
+}
+
+.sort-container {
+  margin: 0 0 2rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.sort-label {
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.sort-select {
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+  box-shadow: 0px 0px 1px #fff;
+}
+
+.sort-select:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0px 0px 2px #fff;
+}
+
+.sort-select:focus {
+  box-shadow: 0px 0px 3px #fff;
+}
+
+.sort-select option {
+  background-color: #000000;
+  color: white;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  margin-top: 2rem;
+}
+
+.pagination-btn {
+  padding: 0.75rem 2rem;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #f40612;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(229, 9, 20, 0.3);
+}
+
+.pagination-btn:disabled {
+  background-color: #333;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-number {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+}
+
 
 @media (max-width: 639px) {
   .home {
@@ -50,6 +152,39 @@
 
   .search-form {
     margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .clear-button {
+    padding: 0.5rem 1rem;
+  }
+
+  .sort-container {
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+  }
+
+  .sort-label {
+    font-size: 0.9rem;
+  }
+
+  .sort-select {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .pagination {
+    gap: 1rem;
+    padding: 1.5rem 0.5rem;
+  }
+
+  .pagination-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .page-number {
+    font-size: 0.9rem;
   }
 }
 

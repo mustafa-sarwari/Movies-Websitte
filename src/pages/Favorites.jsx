@@ -6,10 +6,18 @@ function Favorites() {
     const {favorites} = useMovieContext();
 
     if(favorites.length > 0) {
+        const count = favorites.length;
+        const gridClass = count === 1
+            ? 'grid-single'
+            : count === 2
+            ? 'grid-two'
+            : count === 3
+            ? 'grid-three'
+            : 'grid-many';
         return (
         <div className="favorites">
             <h2>Your Favorites</h2>
-        <div className="movies-grid">
+        <div className={`movies-grid ${gridClass}`}>
             {favorites.map( movie => (<MovieCard movie={movie} key={movie.id}/>
         ))}
         </div>

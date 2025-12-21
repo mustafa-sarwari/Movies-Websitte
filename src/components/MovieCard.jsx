@@ -16,12 +16,19 @@ function MovieCard({ movie }) {
       
       <div className="movie-poster">
         <img 
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} 
+          src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : `https://via.placeholder.com/500x750?text=No+Image`} 
+          alt={movie.title || 'Movie poster'}
+          loading="lazy"
         />
 
           <div className="movie-overlay">
-              <button className={`favorite-btn ${favorite ? "active" : ""}`} onClick={onFavoriteClick}>
-              ♥
+              <button 
+                className={`favorite-btn ${favorite ? "active" : ""}`} 
+                onClick={onFavoriteClick}
+                aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
+                aria-pressed={favorite}
+              >
+                ♥
               </button>
           </div>
       </div>

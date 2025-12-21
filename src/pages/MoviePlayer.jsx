@@ -1,5 +1,6 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useMovieContext } from "../context/MovieContext";
 import "../CSS/MoviePlayer.css";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -9,6 +10,8 @@ const BASE_URL = "https://api.themoviedb.org/3";
 function MoviePlayer(){
 
     const { id } = useParams();
+    const navigate = useNavigate();
+    const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
     const [trailerKey, setTrailerKey] = useState(null);
     const [movie, setMovie] = useState(null);
 
@@ -29,14 +32,27 @@ function MoviePlayer(){
             .then(setMovie); 
     }, [id]);
 
-    if(!trailerKey || !movie) return <p className="loading" >Loadding...</p>;
+    const numericId = Number(id);
+    const favorite = isFavorite(numericId);
+
+    function onFavoriteClick(e) {
+        e.preventDefault();
+        if(favorite) removeFromFavorites(numericId);
+        else addToFavorites(movie);
+    }
+
+    if(!trailerKey || !movie) return <p className="loading">Loading...</p>;
 
     return (
         <div className="player-page">
 
             <div className="player-top">
-                <Link
-                to={`/movie/${id}`} className="close-btn">✕</Link>
+                <button 
+                    onClick={() => navigate(-1)}
+                    className="close-btn"
+                >
+                    ✕
+                </button>
             </div>
 
             <div className="player-content">
@@ -53,8 +69,9 @@ function MoviePlayer(){
                     <div className="player-info-image-and-h2">
 
                         <img 
-                            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                            alt={movie.title}
+                            src={movie.poster_path ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` : `https://via.placeholder.com/300x450?text=No+Image`}
+                            alt={movie.title || 'Movie poster'}
+                            loading="lazy"
                         />
 
                         <div>
@@ -63,6 +80,15 @@ function MoviePlayer(){
                             {movie.genres?.map(g => g.name).join(", ")}
                             </p>
                         </div>
+
+                        <button 
+                            className={`player-favorite-btn ${favorite ? "active" : ""}`} 
+                            onClick={onFavoriteClick}
+                            aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
+                            aria-pressed={favorite}
+                        >
+                            ♥
+                        </button>
                     </div>
                     
 
@@ -72,18 +98,12 @@ function MoviePlayer(){
             </div>
 
 
-            <Link
-            to={`/movie/${id}`}
-            style={{
-                display: "inline-block",
-                marginTop: "20px",
-                padding: "12px 20px",
-                background: "gray",
-                color: "white",
-                borderRadius: "10px",
-                textDecoration: "none",
-            }}
-            >⬅ Back to Details</Link>
+            <button
+                onClick={() => navigate(-1)}
+                className="back-to-details-btn"
+            >
+                ⬅ Back
+            </button>
         </div>
     );
 

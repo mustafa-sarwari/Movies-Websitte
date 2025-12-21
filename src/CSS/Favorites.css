@@ -33,6 +33,52 @@
   line-height: 1.6;
 }
 
+.favorites .movies-grid {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Exactly one card: fixed single column */
+.favorites .movies-grid.grid-single {
+  grid-template-columns: 350px;
+  max-width: 350px;
+}
+
+/* Exactly two cards: two fixed columns same size as single */
+.favorites .movies-grid.grid-two {
+  grid-template-columns: repeat(2, 350px);
+}
+
+/* Exactly three cards: three fixed columns same size as single */
+.favorites .movies-grid.grid-three {
+  grid-template-columns: repeat(3, 350px);
+}
+
+/* Four or more: behave like Home page */
+.favorites .movies-grid.grid-many {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .favorites .movies-grid.grid-two {
+    grid-template-columns: 1fr 1fr;
+    max-width: 700px;
+  }
+  .favorites .movies-grid.grid-three {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 700px;
+  }
+  .favorites .movies-grid.grid-single {
+    grid-template-columns: 1fr;
+    max-width: 90%;
+  }
+}
+
 
 /* Animation for new favorites being added */
 @keyframes fadeIn {
