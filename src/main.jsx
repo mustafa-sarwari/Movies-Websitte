@@ -17,12 +17,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./CSS/index.css";
 import { HashRouter } from "react-router-dom";
-import { MovieProvider  } from "./context/MovieContext.jsx"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <HashRouter>
-    <MovieProvider>
-      <App />
-    </MovieProvider>
+    <App />
   </HashRouter>
 );

@@ -1,14 +1,18 @@
 
-import { createContext, useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { MovieContext } from "./useMovieContext";
 
-const MovieContext = createContext();
-export const useMovieContext = () => useContext(MovieContext);
 export const MovieProvider = ({children}) => {
-    const [favorites,setFavorites ] = useState([]);
-    useEffect(() => {
-        const storedFavs = localStorage.getItem("favorites")
-        if(storedFavs) setFavorites(JSON.parse(storedFavs))
-    }, [])
+    // Use lazy initialization to load favorites from localStorage
+    const [favorites, setFavorites] = useState(() => {
+        try {
+            const storedFavs = localStorage.getItem("favorites");
+            return storedFavs ? JSON.parse(storedFavs) : [];
+        } catch (error) {
+            console.error("Failed to parse favorites from localStorage:", error);
+            return [];
+        }
+    });
 
     useEffect(() => {
         localStorage.setItem('favorites', JSON.stringify(favorites))
