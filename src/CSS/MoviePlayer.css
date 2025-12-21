@@ -1,0 +1,66 @@
+
+.player-page {
+  width: 800px;
+  display: block;
+  margin: auto;
+  margin-top: 0PX;
+  min-height:10vh;
+}
+
+.close-btn {
+display: none;
+}
+
+.player-content {
+box-sizing: content-box;
+width: 100%;
+display: grid;
+justify-content: space-around;
+grid-template-columns: 50% 45%;
+
+}
+
+
+.player-video iframe {
+  width: 100%;
+  height:100%;
+  padding: 2px;
+  border: 0px;
+  
+}
+
+.player-info-image-and-h2 {
+display: grid;
+grid-template-columns: 1fr 3fr;
+gap: 1rem;
+}
+.player-info-image-and-h2 h2{
+  font-size: 1vw;
+}
+
+
+.player-info {
+box-shadow: 0px 0px 1px #fff;  border-radius: 1px;
+padding: 20px;
+}  
+.player-info p {
+  padding-top: 1rem;
+}
+
+.player-info-image-and-h2 img {
+width: 100%;
+}
+.genres {
+  padding-top: 0px !important;
+}
+
+.overview {
+}
+
+.loading {
+  
+}
+
+@media query(min-width:400px){
+
+}
