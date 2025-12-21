@@ -1,5 +1,5 @@
 import "../CSS/MovieCard.css";
-import { useMovieContext } from "../context/MovieContext";
+import { useMovieContext } from "../context/useMovieContext";
 import {Link} from "react-router-dom";
 
 function MovieCard({ movie }) {

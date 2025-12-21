@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useMovieContext } from "../context/MovieContext";
+import { useMovieContext } from "../context/useMovieContext";
 import "../CSS/MoviePlayer.css";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
