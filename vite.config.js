@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  // Base path for GitHub Pages deployment
+  base: '/Movies-Websitte/',
   plugins: [
     react({
       babel: {
