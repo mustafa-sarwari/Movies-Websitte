@@ -1,147 +1,35 @@
-import { useState, useEffect } from "react";
-import { searchMovies, getPopularMovies  } from "../services/api";
-import MovieCard from "../components/MovieCard";
-import "../CSS/Home.css";
-
-
-function Home() {
-const [searchQuery, setSearchQuery] = useState("");
-const [movies, setMovies] = useState([]);
-const [error, setError] = useState(null);
-const [loading, setLoading] = useState(true);
-const [currentPage, setCurrentPage] = useState(1);
-const [isSearchMode, setIsSearchMode] = useState(false);
-const [sortBy, setSortBy] = useState('most_viewed');
-const totalPages = 20; // 20 pages × 50 movies = 1000 movies
-
-    useEffect(() => {
-        const loadPopularMovies = async () => {
-            setLoading(true);
-            try {
-                const popularMovies = await getPopularMovies(currentPage, sortBy);
-                setMovies(popularMovies);
-            } catch (err) {
-                console.log(err)
-                setError("Failed to load movies...")
-            }
-
-                finally{
-                    setLoading(false)
-                }
-        }
-        
-        if (!isSearchMode) {
-            loadPopularMovies();
-        }
-    }, [currentPage, isSearchMode, sortBy])
-
-    const handleSearch = async (e) => {
-        e.preventDefault();
-        if(!searchQuery.trim()) return
-        if(loading) return
-        setLoading(true)
-        setIsSearchMode(true);
-
-        try{
-            const searchResults = await searchMovies(searchQuery)
-            setMovies(searchResults)
-            setError(null)
-        } catch (err){
-            console.log(err)
-            setError("Failed to search movies...")
-        } finally {
-            setLoading(false)
-        }
-    };
-
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    const handleClearSearch = () => {
-        setSearchQuery("");
-        setIsSearchMode(false);
-        setCurrentPage(1);
-    };
-
-    const handleSortChange = (e) => {
-        setSortBy(e.target.value);
-        setCurrentPage(1); // Reset to first page when sorting changes
-    };
-    
-    return (
-     <div className="home">
-         
-        <form onSubmit={handleSearch} className="search-form">
-            <input type="text" 
-            placeholder="Search for movies..." 
-            className="search-input"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            />
-
-            <button type="submit" className="search-button" >Search</button>
-            {isSearchMode && (
-                <button type="button" className="clear-button" onClick={handleClearSearch}>
-                    Clear
-                </button>
-            )}
-        </form>
-
-        {!isSearchMode && (
-            <div className="sort-container">
-                <label htmlFor="sort-select" className="sort-label">Sort by:</label>
-                <select 
-                    id="sort-select"
-                    value={sortBy} 
-                    onChange={handleSortChange}
-                    className="sort-select"
-                >
-                    <option value="most_viewed">Most Viewed</option>
-                    <option value="newest">Newest</option>
-                    <option value="oldest">Oldest</option>
-                    <option value="relevant">Highest Rated</option>
-                </select>
-            </div>
-        )}
-
-        {error && <div className="error-message">{error}</div>}
-
-        {loading ? (<div className="loading">Loading...</div>) :(
-        <>
-        <div className="movies-grid">
-            {movies && movies.map( movie => (<MovieCard movie={movie} key={movie.id}/>
-        ))}
-        </div>
-
-        {!isSearchMode && movies.length > 0 && (
-            <div className="pagination">
-                <button 
-                    className="pagination-btn" 
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-                
-                <div className="pagination-info">
-                    <span className="page-number">Page {currentPage} of {totalPages}</span>
-                </div>
-
-                <button 
-                    className="pagination-btn" 
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    Next
-                </button>
-            </div>
-        )}
-        </>
-        )}
-     </div>
-    );
+import { useEffect, useState } from 'react';
+import { searchMovies, getPopularMovies } from '../services/api';
+import MovieCard from '../components/MovieCard';
+import '../CSS/Home.css';
+export default function Home() {
+  const [query, setQuery] = useState('');
+  const [search, setSearch] = useState('');
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState('most_viewed');
+  useEffect(() => {
+    const controller = new AbortController();
+    async function load() {
+      setLoading(true); setError('');
+      try { const rows = search ? await searchMovies(search, controller.signal) : await getPopularMovies(page, sort, controller.signal); if (!controller.signal.aborted) setMovies(rows); }
+      catch (error) { if (!controller.signal.aborted) { setError(error.message); setMovies([]); } }
+      finally { if (!controller.signal.aborted) setLoading(false); }
+    }
+    load(); return () => controller.abort();
+  }, [page, sort, search]);
+  return <div className="home">
+    <form className="search-form" onSubmit={event => { event.preventDefault(); setSearch(query.trim()); setPage(1); }}>
+      <label htmlFor="movie-search" className="sr-only">Search movies</label><input id="movie-search" className="search-input" placeholder="Search movies…" maxLength={200} value={query} onChange={event => setQuery(event.target.value)} />
+      <button type="submit" className="search-button">Search</button>
+      {search && <button type="button" className="clear-button" onClick={() => { setQuery(''); setSearch(''); setPage(1); }}>Clear</button>}
+    </form>
+    {!search && <div className="sort-container"><label htmlFor="sort-select">Sort by</label><select id="sort-select" value={sort} onChange={event => { setSort(event.target.value); setPage(1); }}><option value="most_viewed">Most popular</option><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="relevant">Highest rated</option></select></div>}
+    {error && <p role="alert">{error}</p>}
+    {loading ? <p role="status">Loading movies…</p> : <><div className="movies-grid">{movies.map(movie => <MovieCard movie={movie} key={movie.id} />)}</div>{!movies.length && !error && <p>No movies found.</p>}
+      {!search && <div className="pagination"><button disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</button><span>Page {page}</span><button disabled={page >= 500 || movies.length < 20} onClick={() => setPage(page + 1)}>Next</button></div>}
+    </>}
+  </div>;
 }
-
-export default Home;

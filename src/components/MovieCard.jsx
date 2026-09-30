@@ -1,9 +1,9 @@
 import "../CSS/MovieCard.css";
-import { useMovieContext } from "../context/MovieContext";
+import { useMovieContext } from "../context/useMovieContext";
 import {Link} from "react-router-dom";
 
 function MovieCard({ movie }) {
-    const {isFavorite, addToFavorites, removeFromFavorites} = useMovieContext();
+    const {isFavorite, addToFavorites, removeFromFavorites, ready} = useMovieContext();
     const favorite = isFavorite(movie.id)
 
     function onFavoriteClick(e){
@@ -27,6 +27,7 @@ function MovieCard({ movie }) {
                 onClick={onFavoriteClick}
                 aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
                 aria-pressed={favorite}
+                disabled={!ready}
               >
                 ♥
               </button>
