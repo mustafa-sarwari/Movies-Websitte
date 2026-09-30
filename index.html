@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/CSS/index.css">
     <title>Movie List</title>
-  </head>
+  <script>
+if(location.protocol!=='file:'&&!location.hostname.endsWith('.github.io')){
+ const enableAccount=()=>{const s=document.createElement('script');s.src='/account.js';document.head.append(s);};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enableAccount,{once:true});else enableAccount();
+}
+</script>
+</head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
