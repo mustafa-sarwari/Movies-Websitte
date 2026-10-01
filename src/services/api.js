@@ -12,3 +12,10 @@ export async function searchMovies(query, signal) {
   const body = await movieRequest(`/search?query=${encodeURIComponent(query)}`, signal);
   return Array.isArray(body.results) ? body.results : [];
 }
+export async function getRecommendations(signal) {
+  const body = await movieRequest('/recommendations', signal);
+  return {
+    results: Array.isArray(body.results) ? body.results : [],
+    favoritesCount: Number.isInteger(body.favoritesCount) ? body.favoritesCount : 0,
+  };
+}
